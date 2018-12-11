@@ -1,1 +1,8 @@
 com/ignatius/ui/commons/KalahaUI.class
+com/ignatius/ui/commons/KalahaLogoLayoutFactory$LogoLayout.class
+com/ignatius/ui/commons/UIComponentBuilder.class
+com/ignatius/ui/commons/KalahaLogoLayoutFactory.class
+com/ignatius/ui/commons/KalahaBoardLayoutFactory.class
+com/ignatius/ui/commons/KalahaBoardLayoutFactory$1.class
+com/ignatius/ui/commons/KalahaLogoLayoutFactory$1.class
+com/ignatius/ui/commons/KalahaBoardLayoutFactory$BoardLayout.class

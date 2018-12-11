@@ -2,3 +2,15 @@
 \.idea/
 
 Kalaha\.iml
+
+kalaha-model/target/
+
+kalaha-service/target/
+
+kalaha-ui/target/
+
+kalaha-utils/target/
+
+kalaha-web/target/
+
+*.jar
