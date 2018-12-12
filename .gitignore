@@ -14,3 +14,17 @@ kalaha-utils/target/
 kalaha-web/target/
 
 *.jar
+
+*.class
+
+*.txt
+
+\.attach_pid11402
+
+*.properties
+
+*.iml
+
+*.war
+
+*.original

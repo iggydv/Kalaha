@@ -2,11 +2,16 @@ package com.ignatius.ui.commons;
 
 // builder pattern
 
+import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.*;
+
 
 @org.springframework.stereotype.Component
 public class KalahaBoardLayoutFactory implements UIComponentBuilder {
+
+    BoardService boardService;
 
     private class BoardLayout extends HorizontalLayout {
 
@@ -64,6 +69,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
                 pitButton.setHeight("50%");
                 buttonNumber++;
             }
+
             return this;
         }
 
@@ -71,10 +77,12 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
 
             for (int i = 0; i < 6; i++) {
                 playerOneSide.addComponent(buttons[i]);
+                playerOneSide.setComponentAlignment(buttons[i], Alignment.BOTTOM_CENTER);
             }
 
             for (int i = 6; i < buttons.length; i++) {
                 playerTwoSide.addComponent(buttons[i]);
+                playerTwoSide.setComponentAlignment(buttons[i], Alignment.TOP_CENTER);
             }
 
             pitsLayout.addComponent(playerOneSide);
@@ -85,112 +93,36 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             addComponent(pitsLayout);
             addComponent(kalahaPlayer2);
             setComponentAlignment(pitsLayout, Alignment.MIDDLE_CENTER);
-            setComponentAlignment(kalahaPlayer1, Alignment.TOP_RIGHT);
-            setComponentAlignment(kalahaPlayer2, Alignment.TOP_LEFT);
+            setComponentAlignment(kalahaPlayer1, Alignment.MIDDLE_RIGHT);
+            setComponentAlignment(kalahaPlayer2, Alignment.MIDDLE_LEFT);
             return this;
         }
 
-        private void createBoardPanel() {
-//            Panel gamePanel = new Panel();
-//            gamePanel.setWidth("100%");
-//            gamePanel.setHeight("100%");
-
-//            HorizontalLayout boardLayout = new HorizontalLayout();
-//            boardLayout.setSizeFull();
-//            boardLayout.setMargin(true);
-//
-//            VerticalLayout pitsLayout = new VerticalLayout();
-//            pitsLayout.setSizeFull();
-//            pitsLayout.setMargin(true);
-//
-//            HorizontalLayout playerOneSide = new HorizontalLayout();
-//            playerOneSide.setSizeFull();
-//            //playerOneSide.setMargin(true);
-//            playerOneSide.setSpacing(true);
-//            createPlayerOneSide(playerOneSide);
-//            pitsLayout.addComponent(playerOneSide);
-//
-//            HorizontalLayout playerTwoSide = new HorizontalLayout();
-//            playerTwoSide.setSizeFull();
-            //playerTwoSide.setMargin(true);
-//            playerTwoSide.setSpacing(true);
-//            createPlayerTwoSide(playerTwoSide);
-//            pitsLayout.addComponent(playerTwoSide);
-//
-//            pitsLayout.setComponentAlignment(playerOneSide, Alignment.MIDDLE_CENTER);
-//            pitsLayout.setComponentAlignment(playerTwoSide, Alignment.MIDDLE_CENTER);
-//
-//            boardLayout.addComponent(kalahaPlayer1);
-//            boardLayout.addComponent(pitsLayout);
-//            boardLayout.addComponent(kalahaPlayer2);
-//            boardLayout.setComponentAlignment(pitsLayout, Alignment.MIDDLE_CENTER);
-//            boardLayout.setComponentAlignment(kalahaPlayer1, Alignment.TOP_RIGHT);
-//            boardLayout.setComponentAlignment(kalahaPlayer2, Alignment.TOP_LEFT);
-//
-//            //find positions
-//            quit = new Button(BoardStringUtils.QUIT.getString());
-//            reset = new Button(BoardStringUtils.RESET.getString());
-//            rules = new Button(BoardStringUtils.GAME_RULES.getString());
-//
-//            gamePanel.setContent(boardLayout);
-//            rootLayout.addComponent(gamePanel);
-//            rootLayout.setExpandRatio(gamePanel, 5);
-//            rootLayout.setComponentAlignment(gamePanel, Alignment.MIDDLE_CENTER);
-        }
-
-        private void createPlayerOneSide(HorizontalLayout layout) {
-            pit0 = new Button("0");
-            pit0.setHeight("50%");
-            pit0.addClickListener((Button.ClickEvent event) -> {
-                kalahaPlayer1.setCaption("blep");
+        public BoardLayout setClickerListeners() {
+            pit0.addClickListener((ClickEvent event) -> {
+                boardService.play( boardService.getPlayer1().getPlayerName(), 0);
             });
-            layout.addComponent(pit0);
-            pit1 = new Button("1");
-            pit1.setHeight("50%");
-            layout.addComponent(pit1);
-            pit2 = new Button("2");
-            pit2.setHeight("50%");
-            layout.addComponent(pit2);
-            pit3 = new Button("3");
-            pit3.setHeight("50%");
-            layout.addComponent(pit3);
-            pit4 = new Button("4");
-            pit4.setHeight("50%");
-            layout.addComponent(pit4);
-            pit5 = new Button("5");
-            pit5.setHeight("50%");
-            layout.addComponent(pit5);
-        }
 
-        private void createPlayerTwoSide(HorizontalLayout layout) {
-            pit6 = new Button("6");
-            pit6.setHeight("50%");
-            layout.addComponent(pit6);
-            pit7 = new Button("7");
-            pit7.setHeight("50%");
-            layout.addComponent(pit7);
-            pit8 = new Button("8");
-            pit8.setHeight("50%");
-            layout.addComponent(pit8);
-            pit9 = new Button("9");
-            pit9.setHeight("50%");
-            layout.addComponent(pit9);
-            pit10 = new Button("10");
-            pit10.setHeight("50%");
-            layout.addComponent(pit10);
-            pit11 = new Button("11");
-            pit11.setHeight("50%");
-            layout.addComponent(pit11);
-        }
+            pit1.addClickListener((ClickEvent event) -> {
+                boardService.play( boardService.getPlayer1().getPlayerName(), 1);
+            });
 
+            pit2.addClickListener((ClickEvent event) -> {
+                boardService.play( boardService.getPlayer1().getPlayerName(), 2);
+            });
+            return this;
+        }
     }
 
     @Override
     public Component createComponent() {
-        return new BoardLayout().init().layout();
+        return new BoardLayout().init().layout().setClickerListeners();
     }
 
-
+    public Component createComponent(BoardService boardService) {
+        this.boardService = boardService;
+        return createComponent();
+    }
 
 
 }

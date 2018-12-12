@@ -16,8 +16,10 @@ public class Pit {
     /**
      * Sets the amount of stones in the pit to zero
      */
-    public void emptyPit() {
+    public int emptyPit() {
+        int stonesInHand = getStones();
         stones = 0;
+        return stonesInHand;
     }
 
     /**

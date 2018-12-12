@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
-            <version>8.0.0</version>
+            <version>8.2.0</version>
         </dependency>
 
         <dependency>
@@ -40,6 +40,14 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ignatius</groupId>
+            <artifactId>kalaha-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
+
 
 </project>

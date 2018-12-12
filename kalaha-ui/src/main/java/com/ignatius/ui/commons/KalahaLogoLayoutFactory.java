@@ -1,5 +1,6 @@
 package com.ignatius.ui.commons;
 
+import com.ignatius.service.board.BoardService;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -15,9 +16,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
         private Image logo;
 
         public LogoLayout init() {
-
             logo = createImage("/kalaha-ui/src/main/resources/kalaha-logo-2.png");
-
             return this;
         }
 
@@ -33,6 +32,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
             return new Image("", resource);
         }
     }
+
     @Override
     public Component createComponent() {
         return new LogoLayout().init().layout();
