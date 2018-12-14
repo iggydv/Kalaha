@@ -11,14 +11,14 @@ public class PitTest {
 
     @Test
     public void testEmptyPit() {
-        Pit testPit = new Pit(6);
+        Pit testPit = new Pit(6, false);
         testPit.emptyPit();
         assertEquals(0, testPit.getStones());
     }
 
     @Test
     public void testReceive() {
-        Pit testPit = new Pit(6);
+        Pit testPit = new Pit(6, false);
         testPit.receive(3);
         assertEquals(9, testPit.getStones());
     }

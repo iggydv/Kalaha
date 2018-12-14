@@ -2,8 +2,8 @@ package com.ignatius.ui.commons;
 
 // builder pattern
 
+import com.ignatius.data.objects.Pit;
 import com.ignatius.service.board.BoardService;
-import com.ignatius.utils.BoardStringUtils;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.*;
 
@@ -17,18 +17,18 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
 
         Button kalahaPlayer1;
         Button kalahaPlayer2;
-        Button pit0 = new Button();
-        Button pit1 = new Button();
-        Button pit2 = new Button();
-        Button pit3 = new Button();
-        Button pit4 = new Button();
-        Button pit5 = new Button();
-        Button pit6 = new Button();
-        Button pit7 = new Button();
-        Button pit8 = new Button();
-        Button pit9 = new Button();
-        Button pit10 = new Button();
-        Button pit11 = new Button();
+        Button pit0 = new Button("0");
+        Button pit1 = new Button("1");
+        Button pit2 = new Button("2");
+        Button pit3 = new Button("3");
+        Button pit4 = new Button("4");
+        Button pit5 = new Button("5");
+        Button pit6 = new Button("6");
+        Button pit7 = new Button("7");
+        Button pit8 = new Button("8");
+        Button pit9 = new Button("9");
+        Button pit10 = new Button("10");
+        Button pit11 = new Button("11");
         Button quit;
         Button reset;
         Button rules;
@@ -38,9 +38,9 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         VerticalLayout pitsLayout;
 
         // hard coded array
-        Button[] buttons = new Button[]{pit0, pit1, pit2, pit3, pit4, pit5, pit6, pit7, pit8, pit9, pit10, pit11};
+        Button[] pitButtons = new Button[]{pit5, pit4, pit3, pit2, pit1, pit0, pit6, pit7, pit8, pit9, pit10, pit11};
 
-        public  BoardLayout init() {
+        public BoardLayout init() {
             pitsLayout = new VerticalLayout();
             pitsLayout.setSizeFull();
             pitsLayout.setMargin(true);
@@ -63,11 +63,9 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             kalahaPlayer2.setWidth("30%");
             kalahaPlayer2.setEnabled(false);
 
-            int buttonNumber = 0;
-            for (Button pitButton : buttons) {
-                pitButton.setCaption(""+buttonNumber);
+            for (Button pitButton : pitButtons) {
                 pitButton.setHeight("50%");
-                buttonNumber++;
+                pitButton.setId(pitButton.getCaption());
             }
 
             return this;
@@ -75,14 +73,15 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
 
         public BoardLayout layout() {
 
+            // TODO: Can to with array split
             for (int i = 0; i < 6; i++) {
-                playerOneSide.addComponent(buttons[i]);
-                playerOneSide.setComponentAlignment(buttons[i], Alignment.BOTTOM_CENTER);
+                playerOneSide.addComponent(pitButtons[i]);
+                playerOneSide.setComponentAlignment(pitButtons[i], Alignment.BOTTOM_CENTER);
             }
 
-            for (int i = 6; i < buttons.length; i++) {
-                playerTwoSide.addComponent(buttons[i]);
-                playerTwoSide.setComponentAlignment(buttons[i], Alignment.TOP_CENTER);
+            for (int i = 6; i < pitButtons.length; i++) {
+                playerTwoSide.addComponent(pitButtons[i]);
+                playerTwoSide.setComponentAlignment(pitButtons[i], Alignment.TOP_CENTER);
             }
 
             pitsLayout.addComponent(playerOneSide);
@@ -95,22 +94,66 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             setComponentAlignment(pitsLayout, Alignment.MIDDLE_CENTER);
             setComponentAlignment(kalahaPlayer1, Alignment.MIDDLE_RIGHT);
             setComponentAlignment(kalahaPlayer2, Alignment.MIDDLE_LEFT);
+
+            //
+            System.out.println("dsf,dnlfskmdf");
+            updatePitButtons(boardService.getBoard().getPits());
+            System.out.println("dsf,dnldkmdf");
+
             return this;
         }
 
         public BoardLayout setClickerListeners() {
-            pit0.addClickListener((ClickEvent event) -> {
-                boardService.play( boardService.getPlayer1().getPlayerName(), 0);
-            });
-
-            pit1.addClickListener((ClickEvent event) -> {
-                boardService.play( boardService.getPlayer1().getPlayerName(), 1);
-            });
-
-            pit2.addClickListener((ClickEvent event) -> {
-                boardService.play( boardService.getPlayer1().getPlayerName(), 2);
-            });
+            for (Button pitButton : pitButtons) {
+                pitButton.addClickListener((ClickEvent event) -> {
+                    Pit[] boardPitArray = boardService.play(Integer.parseInt(pitButton.getId()));
+                    updateUI(boardService.getActivePlayerNumber(), boardPitArray);
+                    if (boardService.isGameEnd()) {
+                       // TODO add a popup here boi
+                    }
+                });
+            }
             return this;
+        }
+
+        private void updateUI(int activePlayerNumber, Pit[] boardPitArray) {
+            switch (activePlayerNumber) {
+                case 1: disablePlayer2Pits(); break;
+                case 2: disablePlayer1Pits(); break;
+                default: throw new IllegalArgumentException("Player unkown");
+            }
+            updatePitButtons(boardPitArray);
+            kalahaPlayer1.setCaption(""+boardService.getKalahaStones(1));
+            kalahaPlayer2.setCaption(""+boardService.getKalahaStones(2));
+        }
+
+        private void updatePitButtons(Pit[] boardPitArray) {
+            for (Button pit : pitButtons) {
+                int index = Integer.parseInt(pit.getId());
+                pit.setCaption(""+boardPitArray[index].getStones());
+            }
+        }
+
+        private void disablePlayer2Pits() {
+            for (Button pit : pitButtons) {
+                if (Integer.parseInt(pit.getId()) >= 6) {
+                    pit.setEnabled(false);
+                } else {
+                    pit.setEnabled(true);
+                }
+
+            }
+        }
+
+        private void disablePlayer1Pits() {
+            for (Button pit : pitButtons) {
+                if (Integer.parseInt(pit.getId()) < 6) {
+                    pit.setEnabled(false);
+                } else {
+                    pit.setEnabled(true);
+                }
+
+            }
         }
     }
 

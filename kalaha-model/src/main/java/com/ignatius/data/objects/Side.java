@@ -37,7 +37,7 @@ public class Side {
     private void initializePits() {
         kalaha = new Kalaha();
         for (int i=0; i < amountPits; i++) {
-            pits[i] = new Pit(amountStones);
+            pits[i] = new Pit(amountStones, false);
         }
     }
 

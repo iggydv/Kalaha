@@ -2,6 +2,7 @@ package com.ignatius.data.objects;
 
 public class Pit {
     private int stones;
+    private boolean isKalaha;
 
     /**
      * A @{@link Side} Object consists of multiple Pit objects, which are editable by the @{@link Player} associated
@@ -9,8 +10,9 @@ public class Pit {
      *
      * @param stones The initial amount of stones in the pit
      */
-    public Pit(int stones) {
+    public Pit(int stones, boolean isKalaha) {
         this.stones = stones;
+        this.isKalaha = isKalaha;
     }
 
     /**
@@ -42,5 +44,13 @@ public class Pit {
      */
     public void setStones(int stones) {
         this.stones = stones;
+    }
+
+    public boolean isKalaha() {
+        return isKalaha;
+    }
+
+    public void setKalaha(boolean kalaha) {
+        isKalaha = kalaha;
     }
 }

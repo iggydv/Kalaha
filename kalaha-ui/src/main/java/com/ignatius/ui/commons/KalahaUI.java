@@ -2,20 +2,25 @@ package com.ignatius.ui.commons;
 
 import com.ignatius.data.objects.Board;
 import com.ignatius.data.objects.Kalaha;
+import com.ignatius.data.objects.Player;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
+import com.vaadin.annotations.PropertyId;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringUI(path=KalahaUI.NAME)
+@SpringUI(path = KalahaUI.NAME)
 @SuppressWarnings("serial")
 @Title("K a l a h a")
 @Theme("valo")
@@ -35,9 +40,9 @@ public class KalahaUI extends UI {
     @Autowired
     private KalahaRegisterPlayerLayoutFactory kalahaRegisterPlayerLayoutFactory;
 
-//    private Button quit;
-//    private Button reset;
-//    private Button rules;
+    //    private Button quit;
+    //    private Button reset;
+    //    private Button rules;
 
     protected void init(VaadinRequest vaadinRequest) {
         logger.info("Initializing Components");
@@ -70,7 +75,6 @@ public class KalahaUI extends UI {
         rootLayout.setExpandRatio(logoPanel, 2);
         rootLayout.setComponentAlignment(gamePanel, Alignment.MIDDLE_CENTER);
         rootLayout.setComponentAlignment(logoPanel, Alignment.MIDDLE_CENTER);
-
         setContent(rootLayout);
     }
 
