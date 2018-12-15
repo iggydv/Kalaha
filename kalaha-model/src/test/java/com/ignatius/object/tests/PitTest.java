@@ -11,15 +11,23 @@ public class PitTest {
 
     @Test
     public void testEmptyPit() {
-        Pit testPit = new Pit(6, false);
+        Pit testPit = new Pit(6);
         testPit.emptyPit();
         assertEquals(0, testPit.getStones());
     }
 
     @Test
-    public void testReceive() {
-        Pit testPit = new Pit(6, false);
-        testPit.receive(3);
+    public void testReceiveStones() {
+        Pit testPit = new Pit(6);
+        testPit.receiveStones(3);
         assertEquals(9, testPit.getStones());
     }
+
+    @Test
+    public void testSetStones() {
+        Pit testPit = new Pit(60);
+        testPit.setStones(6);
+        assertEquals(6, testPit.getStones());
+    }
+
 }

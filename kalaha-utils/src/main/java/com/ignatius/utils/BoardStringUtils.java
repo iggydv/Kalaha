@@ -4,19 +4,22 @@ public enum BoardStringUtils {
 
     QUIT("Quit"),
     RESET("Reset"),
-    GAME_RULES("?"),
+    HELP("?"),
     REGISTER_PLAYER_NAMES("Players Names"),
     PLAYER_1("Player 1"),
     PLAYER_2("Player 2"),
     LOCK("Lock"),
-    START_GAME("Start Game")
+    START_GAME("Start Game"),
+    KALAHA("kalaha"),
+    PIT("pit")
     ;
 
     private final String string;
 
-    private BoardStringUtils(String string) {
+    BoardStringUtils(String string) {
         this.string = string;
     }
+
     public  String getString() {
         return this.string;
     }

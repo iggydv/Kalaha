@@ -6,35 +6,45 @@ import com.ignatius.data.objects.Pit;
 import com.ignatius.data.objects.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.inject.Inject;
+
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BoardTest {
 
+    @Mock
+    Kalaha kalahaPlayer1;
+
+    @InjectMocks
+    Player player1;
 
     @Mock
-    Kalaha kalahaPlayer1, kalahaPlayer2;
-    @Mock
-    Player player1, player2;
+    Kalaha kalahaPlayer2;
 
-    Board testBoard;
+    @InjectMocks
+    Player player2;
 
+    private Board testBoard;
 
     @Test
-    public void testDestroy() {
-        //testBoard.destroy();
+    public void testPitInitialization() {
+        setTestBoard();
+        Random random = new Random();
+        assertEquals(6, testBoard.getStonesInPit(random.nextInt(11)));
+        assertEquals(0, testBoard.getKalaha(player1).getStones());
     }
 
     @Test
     public void testEndGameConditionNegativeCase() {
         setTestBoard();
-        assertFalse(testBoard.endGameCondition(player1));
-        assertFalse(testBoard.endGameCondition(player2));
+        assertFalse(testBoard.endGameCondition());
     }
 
     @Test
@@ -43,12 +53,30 @@ public class BoardTest {
         for (int i = 0; i < (testBoard.getPits().length)/2; i++) {
             testBoard.getPit(i).setStones(0);
         }
-        assertTrue(testBoard.endGameCondition(player1));
-        assertFalse(testBoard.endGameCondition(player2));
+        assertTrue(testBoard.endGameCondition());
     }
 
     @Test
-    public void testPlayer2Turn() {
+    public void testPlayer1Won() {
+        setTestBoard();
+        Kalaha l = testBoard.getKalaha(player1);
+        testBoard.addToKalaha(player1, 20);
+        assertEquals(1, testBoard.winnigPlayer());
+    }
+
+    @Test
+    public void testPlayer2Won() {
+        setTestBoard();
+        testBoard.addToKalaha(player2, 20);
+        assertEquals(2, testBoard.winnigPlayer());
+    }
+
+    @Test
+    public void testDraw() {
+        setTestBoard();
+        testBoard.addToKalaha(player2, 20);
+        testBoard.addToKalaha(player1, 20);
+        assertEquals(0, testBoard.winnigPlayer());
     }
 
     private void setTestBoard() {

@@ -1,11 +1,7 @@
 package com.ignatius.ui.commons;
 
-import com.ignatius.data.objects.Board;
-import com.ignatius.data.objects.Kalaha;
-import com.ignatius.data.objects.Player;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
-import com.vaadin.annotations.PropertyId;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
@@ -31,6 +27,8 @@ public class KalahaUI extends UI {
     private VerticalLayout rootLayout = new VerticalLayout();
     private BoardService boardService = new BoardService();
 
+    // Custom UI components
+
     @Autowired
     private KalahaBoardLayoutFactory kalahaBoardLayoutFactory;
 
@@ -40,10 +38,14 @@ public class KalahaUI extends UI {
     @Autowired
     private KalahaRegisterPlayerLayoutFactory kalahaRegisterPlayerLayoutFactory;
 
-    //    private Button quit;
-    //    private Button reset;
-    //    private Button rules;
+    @Autowired
+    private KalahaSettingsLayoutFactory kalahaSettingsLayoutFactory;
 
+    /**
+     * Initialize all the required UI {@link Component}s
+     *
+     * @param vaadinRequest
+     */
     protected void init(VaadinRequest vaadinRequest) {
         logger.info("Initializing Components");
         rootLayout.setSizeFull();
@@ -59,6 +61,10 @@ public class KalahaUI extends UI {
         gamePanel.setWidth("100%");
         gamePanel.setHeight("100%");
 
+        Panel settingsPanel = new Panel();
+        settingsPanel.setWidth("100%");
+        settingsPanel.setHeight("100%");
+
         logger.info("Creating Logo");
         Component logo = kalahaLogoLayoutFactory.createComponent();
         logo.setSizeFull();
@@ -69,20 +75,35 @@ public class KalahaUI extends UI {
         board.setSizeFull();
         gamePanel.setContent(board);
 
+        logger.info("Creating Settings");
+        Component settings = kalahaSettingsLayoutFactory.createComponent();
+        settings.setSizeFull();
+        settingsPanel.setContent(settings);
+
         rootLayout.addComponent(logoPanel);
         rootLayout.addComponent(gamePanel);
+        rootLayout.addComponent(settingsPanel);
+
         rootLayout.setExpandRatio(gamePanel, 5);
         rootLayout.setExpandRatio(logoPanel, 2);
+        rootLayout.setExpandRatio(settingsPanel, 1);
+
         rootLayout.setComponentAlignment(gamePanel, Alignment.MIDDLE_CENTER);
         rootLayout.setComponentAlignment(logoPanel, Alignment.MIDDLE_CENTER);
+        rootLayout.setComponentAlignment(settingsPanel, Alignment.MIDDLE_CENTER);
+
         setContent(rootLayout);
     }
 
+    /**
+     * Creates an initial window to allow for player initialization
+     */
     private void createPlayerRegistrationWindow() {
         logger.info("Creating Player Registration Window");
         Window subWindow = new Window(BoardStringUtils.REGISTER_PLAYER_NAMES.getString());
         Component registerPlayersLayout = kalahaRegisterPlayerLayoutFactory.createComponent(boardService);
         registerPlayersLayout.setSizeFull();
+
         subWindow.setContent(registerPlayersLayout);
         subWindow.setModal(true);
         subWindow.setClosable(false);
@@ -92,4 +113,5 @@ public class KalahaUI extends UI {
         subWindow.center();
         addWindow(subWindow);
     }
+
 }
