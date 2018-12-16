@@ -5,6 +5,9 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 /**
@@ -18,6 +21,8 @@ import java.io.File;
 @org.springframework.stereotype.Component
 public class KalahaLogoLayoutFactory implements UIComponentBuilder {
 
+    private static Logger logger = LoggerFactory.getLogger(KalahaLogoLayoutFactory.class);
+
     private class LogoLayout extends HorizontalLayout {
         private Image logo;
 
@@ -27,6 +32,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
          * @return an initialized LogoLayout Component
          */
         public LogoLayout init() {
+            logger.debug("Initializing logo component");
             logo = createImage("/kalaha-ui/src/main/resources/kalaha-logo-2.png");
             return this;
         }
@@ -37,6 +43,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
          * @return an arranged LogoLayout Component
          */
         public LogoLayout layout() {
+            logger.debug("Adding component logo layout");
             addComponent(logo);
             setComponentAlignment(logo, Alignment.TOP_CENTER);
             return this;
@@ -47,6 +54,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
          * @return an @{@link Image} that can be used on a UI
          */
         private Image createImage(String imagePath) {
+            logger.debug("Creating logo component image");
             String basePath = System.getProperty("user.dir");
             FileResource resource = new FileResource(new File(basePath + imagePath));
             return new Image("", resource);

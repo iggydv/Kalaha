@@ -11,7 +11,9 @@ public enum BoardStringUtils {
     LOCK("Lock"),
     START_GAME("Start Game"),
     KALAHA("kalaha"),
-    PIT("pit")
+    PIT("pit"),
+    WINNER("WINNER"),
+    TIE("IT'S A TIE!")
     ;
 
     private final String string;

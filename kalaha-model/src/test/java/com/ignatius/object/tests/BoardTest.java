@@ -2,15 +2,12 @@ package com.ignatius.object.tests;
 
 import com.ignatius.data.objects.Board;
 import com.ignatius.data.objects.Kalaha;
-import com.ignatius.data.objects.Pit;
 import com.ignatius.data.objects.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import javax.inject.Inject;
 
 import java.util.Random;
 

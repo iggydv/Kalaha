@@ -8,6 +8,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -20,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 @org.springframework.stereotype.Component
 public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
 
+    private static Logger logger = LoggerFactory.getLogger(KalahaSettingsLayoutFactory.class);
+
     private class SettingsLayout extends HorizontalLayout {
 
         private Button quit;
@@ -31,6 +35,7 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
          * @return an initialized SettingsLayout Component
          */
         public SettingsLayout init() {
+            logger.debug("Initializing settings component");
             quit = new Button(BoardStringUtils.QUIT.getString());
             quit.setWidth("100px");
             help = createPopUpView();
@@ -43,6 +48,7 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
          * @return an arranged SettingsLayout Component
          */
         public SettingsLayout layout() {
+            logger.debug("Adding settings layout");
             addComponent(quit);
             addComponent(help);
             setComponentAlignment(quit, Alignment.MIDDLE_CENTER);
@@ -56,6 +62,7 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
          * @return a SettingsLayout with functional buttons
          */
         public SettingsLayout setClickerListeners() {
+            logger.debug("Adding clicker listeners to settings component");
             quit.addClickListener((Button.ClickEvent event) -> {
                 final String uri = "http://localhost:8080/quit";
                 RestTemplate restTemplate = new RestTemplate();
@@ -72,6 +79,7 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
          * @return a @{@link PopupView} that can be added to a component
          */
         private PopupView createPopUpView() {
+            logger.debug("Creating popup view");
             final String uri = "http://localhost:8080/help";
 
             RestTemplate restTemplate = new RestTemplate();

@@ -19,7 +19,7 @@ import javax.inject.Inject;
 public class BoardService {
 
     private static Logger logger = LoggerFactory.getLogger(BoardService.class);
-    private boolean gameEnd = false;
+    private boolean gameOver = false;
 
     @Inject
     private Board board;
@@ -135,14 +135,13 @@ public class BoardService {
         int lastAlteredPitIndex = 0;
 
         while (loopIndex < board.getPits().length + 1 && stonesInHand != 0) {
-            // p1
             if (loopIndex == 12 && PlayerTwoToKalaha) {
                 if (player1.equals(getActivePlayer())) {
                     loopIndex = 0;
                     PlayerOneToKalaha = true;
                 } else {
                     board.addToKalaha(player2, 1);
-                    logger.info("Adding to kalaha - total: {}}", board.getKalaha(player1).getStones());
+                    logger.info("Adding to kalaha - total: {}}", getKalahaStones(player2));
                     PlayerTwoToKalaha = false;
                     lastStoneDished = BoardStringUtils.KALAHA.getString();
                     loopIndex = 0;
@@ -151,7 +150,7 @@ public class BoardService {
             } else if (loopIndex == 6 && PlayerOneToKalaha) {
                 if (player1.equals(getActivePlayer())) {
                     board.addToKalaha(player1, 1);
-                    logger.info("Adding to kalaha - total: {}}", board.getKalaha(player1).getStones());
+                    logger.info("Adding to kalaha - total: {}}", getKalahaStones(player1));
                     lastStoneDished = BoardStringUtils.KALAHA.getString();
                     PlayerOneToKalaha = false;
                 } else {
@@ -178,7 +177,7 @@ public class BoardService {
 
         // Check whether the end-game condition is met
         if (endGameCondition()) {
-            gameEnd = true;
+            gameOver = true;
             return;
         }
         setActivePlayer(nextPlayer);
@@ -209,8 +208,8 @@ public class BoardService {
      * @return true:    @endGameCondition has been met
      *         false:   otherwise
      */
-    public boolean isGameEnd() {
-        return gameEnd;
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     /**
@@ -257,7 +256,7 @@ public class BoardService {
     /**
      * @return the @{@link Player} who's introducing change to the board
      */
-    private Player getActivePlayer() {
+    public Player getActivePlayer() {
         return activePlayer;
     }
 
@@ -282,7 +281,7 @@ public class BoardService {
 
     // TODO make enum
     public int getKalahaStones(Player player) {
-        return board.getKalaha(player).getStones();
+        return player.getKalaha().getStones();
     }
 
 }

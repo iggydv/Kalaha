@@ -47,7 +47,7 @@ public class KalahaUI extends UI {
      * @param vaadinRequest
      */
     protected void init(VaadinRequest vaadinRequest) {
-        logger.info("Initializing Components");
+        logger.info("Initializing components");
         rootLayout.setSizeFull();
         rootLayout.setMargin(true);
 
@@ -65,17 +65,17 @@ public class KalahaUI extends UI {
         settingsPanel.setWidth("100%");
         settingsPanel.setHeight("100%");
 
-        logger.info("Creating Logo");
+        logger.info("Creating logo");
         Component logo = kalahaLogoLayoutFactory.createComponent();
         logo.setSizeFull();
         logoPanel.setContent(logo);
 
-        logger.info("Creating Board");
+        logger.info("Creating board");
         Component board = kalahaBoardLayoutFactory.createComponent(boardService);
         board.setSizeFull();
         gamePanel.setContent(board);
 
-        logger.info("Creating Settings");
+        logger.info("Creating settings");
         Component settings = kalahaSettingsLayoutFactory.createComponent();
         settings.setSizeFull();
         settingsPanel.setContent(settings);
@@ -99,7 +99,7 @@ public class KalahaUI extends UI {
      * Creates an initial window to allow for player initialization
      */
     private void createPlayerRegistrationWindow() {
-        logger.info("Creating Player Registration Window");
+        logger.info("Creating player registration window");
         Window subWindow = new Window(BoardStringUtils.REGISTER_PLAYER_NAMES.getString());
         Component registerPlayersLayout = kalahaRegisterPlayerLayoutFactory.createComponent(boardService);
         registerPlayersLayout.setSizeFull();

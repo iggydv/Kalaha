@@ -1,5 +1,6 @@
 package com.ignatius.data.objects;
 
+import com.ignatius.utils.BoardStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,16 +127,16 @@ public class Board {
      *
      * @return the enum associated with the winning player
      */
-    public int winnigPlayer() {
+    public BoardStringUtils winnigPlayer() {
         if (player1.getKalaha().getStones() > player2.getKalaha().getStones()) {
             // player 1 won
-            return 1;
+            return BoardStringUtils.PLAYER_1;
         } else if (player1.getKalaha().getStones() == player2.getKalaha().getStones()) {
             // draw
-            return 0;
+            return BoardStringUtils.TIE;
         } else {
             // player 2 won
-            return 2;
+            return BoardStringUtils.PLAYER_2;
         }
     }
 

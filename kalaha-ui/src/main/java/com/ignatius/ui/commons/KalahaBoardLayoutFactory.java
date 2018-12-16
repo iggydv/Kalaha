@@ -4,14 +4,14 @@ package com.ignatius.ui.commons;
 import com.ignatius.data.objects.Pit;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FileResource;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
 /**
  * Provides the BoardLayout @{@link Component} to the @{@link KalahaUI}
  * Uses the {@link BoardService} class for all backend functionality
@@ -24,9 +24,10 @@ import com.vaadin.ui.VerticalLayout;
 @org.springframework.stereotype.Component
 public class KalahaBoardLayoutFactory implements UIComponentBuilder {
 
-    BoardService boardService;
+    private static Logger logger = LoggerFactory.getLogger(KalahaBoardLayoutFactory.class);
+    static BoardService boardService;
 
-    private class BoardLayout extends HorizontalLayout {
+    public static class BoardLayout extends HorizontalLayout {
 
         private Button kalahaPlayer1;
         private Button kalahaPlayer2;
@@ -49,7 +50,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         private HorizontalLayout playerTwoSide;
         private VerticalLayout pitsLayout;
 
-        private BoardLayout() {
+        public BoardLayout() {
             pit0 = new Button("0");
             pit1 = new Button("1");
             pit2 = new Button("2");
@@ -72,6 +73,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          * @return an initialized BoardLayout Component
          */
         public BoardLayout init() {
+            logger.debug("Initializing board component");
             pitsLayout = new VerticalLayout();
             pitsLayout.setSizeFull();
             pitsLayout.setMargin(true);
@@ -110,8 +112,8 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          * @return an arranged BoardLayout Component
          */
         public BoardLayout layout() {
-            // TODO: Can to with array split & use lengths rather than fixed numbers
-            for (int i = 0; i < 6; i++) {
+            logger.debug("Adding component board component layout");
+            for (int i = 0; i < pitButtons.length/2; i++) {
                 playerOneSide.addComponent(pitButtons[i]);
                 playerOneSide.setComponentAlignment(pitButtons[i], Alignment.BOTTOM_CENTER);
             }
@@ -144,6 +146,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             setComponentAlignment(kalahaPlayer1, Alignment.MIDDLE_RIGHT);
             setComponentAlignment(pitsLayout, Alignment.MIDDLE_RIGHT);
             setComponentAlignment(kalahaPlayer2, Alignment.MIDDLE_LEFT);
+
             // Set expand ratio
             setExpandRatio(pitsLayout, 10);
             setExpandRatio(kalahaPlayer1, 8);
@@ -161,13 +164,14 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          * @return a BoardLayout with functional buttons
          */
         public BoardLayout setClickerListeners() {
+            logger.debug("Adding clicker listeners to board component");
             for (Button pitButton : pitButtons) {
                 pitButton.addClickListener((ClickEvent event) -> {
                     // TODO return value
                     boardService.play(Integer.parseInt(pitButton.getId()));
                     updateUI();
-                    if (boardService.isGameEnd()) {
-                       // TODO add a popup here boi
+                    if (boardService.isGameOver()) {
+                        createWinnerPopUp(boardService.getBoard().winnigPlayer());
                     }
                 });
             }
@@ -186,6 +190,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          */
         // TODO fix this ugly code
         public BoardLayout updateUI() {
+            logger.info("Updating board component");
             switch (boardService.getActivePlayerNumber()) {
                 case 1: disablePlayer2Pits(); break;
                 case 2: disablePlayer1Pits(); break;
@@ -200,7 +205,8 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         /**
          * Update the button captions to reflect it's @{@link Pit} counterpart
          */
-        private void updatePitButtons() {
+        public void updatePitButtons() {
+            logger.debug("Updating pit button captions");
             for (Button pit : pitButtons) {
                 int index = Integer.parseInt(pit.getId());
                 pit.setCaption(""+boardService.getBoard().getStonesInPit(index));
@@ -212,13 +218,13 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          * Pit index [6] -> [11]
          */
         private void disablePlayer2Pits() {
+            logger.debug("Disabling player-2's pits");
             for (Button pit : pitButtons) {
                 if (Integer.parseInt(pit.getId()) >= 6) {
                     pit.setEnabled(false);
                 } else {
                     pit.setEnabled(true);
                 }
-
             }
         }
 
@@ -227,6 +233,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          * Pit index [0] -> [5]
          */
         private void disablePlayer1Pits() {
+            logger.debug("Disabling player-1's pits");
             for (Button pit : pitButtons) {
                 if (Integer.parseInt(pit.getId()) < 6) {
                     pit.setEnabled(false);
@@ -235,14 +242,67 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
                 }
             }
         }
+
+
+        /**
+         * Creates a popup window that displays the winning @{@link com.ignatius.data.objects.Player}'s name
+         * @param winner is the @{@link BoardStringUtils} enum received from the @{@link BoardService}
+         *               PLAYER 1:  Player-1 is the winner
+         *               PLAYER 2:  Player-2 is the winner
+         *               TIE:       The game is tied
+         */
+        public void createWinnerPopUp(BoardStringUtils winner) {
+            logger.debug("Creating popup winner popup window");
+            VerticalLayout subWindowContent = new VerticalLayout();
+            String caption;
+
+            switch (winner) {
+                case PLAYER_1: caption = boardService.getPlayer1().getPlayerName(); break;
+                case PLAYER_2: caption = boardService.getPlayer2().getPlayerName(); break;
+                case TIE: caption = BoardStringUtils.TIE.getString(); break;
+                default: {
+                    logger.error("Invalid enum received");
+                    throw new IllegalArgumentException("Invalid enum received");}
+            }
+            Label winnerCaption = new Label(caption);
+            winnerCaption.setWidth("100px");
+            Image winnerImage = createImage("/kalaha-ui/src/main/resources/winner.png");
+
+            subWindowContent.addComponent(winnerCaption);
+            subWindowContent.addComponent(winnerImage);
+
+            subWindowContent.setComponentAlignment(winnerCaption, Alignment.BOTTOM_CENTER);
+            subWindowContent.setComponentAlignment(winnerImage, Alignment.MIDDLE_CENTER);
+
+            UI ancestor = this.getUI();
+            Window subWindow = new Window(BoardStringUtils.WINNER.getString());
+            subWindow.setContent(subWindowContent);
+            subWindow.setModal(true);
+            subWindow.setDraggable(false);
+            subWindow.setHeight("500px");
+            subWindow.setWidth("500px");
+            subWindow.center();
+            ancestor.addWindow(subWindow);
+        }
+
+        /**
+         * @param imagePath where the logo can be found
+         * @return an @{@link Image} that can be used on a UI
+         */
+        private Image createImage(String imagePath) {
+            logger.debug("Creating winner image");
+            String basePath = System.getProperty("user.dir");
+            FileResource resource = new FileResource(new File(basePath + imagePath));
+            return new Image("", resource);
+        }
     }
 
     @Override
-    public Component createComponent() {
+    public BoardLayout createComponent() {
         return new BoardLayout().init().layout().setClickerListeners();
     }
 
-    public Component createComponent(BoardService boardService) {
+    public BoardLayout createComponent(BoardService boardService) {
         this.boardService = boardService;
         return createComponent();
     }
