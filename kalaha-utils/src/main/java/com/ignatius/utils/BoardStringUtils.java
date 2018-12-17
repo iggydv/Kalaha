@@ -3,8 +3,6 @@ package com.ignatius.utils;
 public enum BoardStringUtils {
 
     QUIT("Quit"),
-    RESET("Reset"),
-    HELP("?"),
     REGISTER_PLAYER_NAMES("Players Names"),
     PLAYER_1("Player 1"),
     PLAYER_2("Player 2"),
@@ -13,7 +11,10 @@ public enum BoardStringUtils {
     KALAHA("kalaha"),
     PIT("pit"),
     WINNER("WINNER"),
-    TIE("IT'S A TIE!")
+    TIE("IT'S A TIE!"),
+    RESET("Reset"),
+    PLEASE_CLICK_RESET("Please click 'reset' play again"),
+    RESET_BUTTON_CLICKED("Kalaha board reset!")
     ;
 
     private final String string;

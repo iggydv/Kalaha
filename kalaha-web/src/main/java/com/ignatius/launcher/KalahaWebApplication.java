@@ -10,6 +10,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+
+import javax.annotation.PreDestroy;
+
 @Configuration
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @ComponentScan({"com.ignatius"})
@@ -19,18 +22,14 @@ public class KalahaWebApplication {
     private static Logger logger = LoggerFactory.getLogger(KalahaWebApplication.class);
     private static ConfigurableApplicationContext ctx;
 
-//    @Bean(name = DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
-//    public DispatcherServlet dispatcherServlet(WebApplicationContext ctx) {
-//        DispatcherServlet dispatcherServlet = new DispatcherServlet(ctx);
-//        return dispatcherServlet;
-//    }
-
     public static void main(String[] args) {
         logger.info("Initializing Kalaha web application");
         ctx = SpringApplication.run(KalahaWebApplication.class, args);
+        logger.debug("Application context configured");
     }
 
-    public static void quit() {
-       ctx.close();
+    @PreDestroy
+    public void onShutDown() {
+        logger.warn("closing application context");
     }
 }

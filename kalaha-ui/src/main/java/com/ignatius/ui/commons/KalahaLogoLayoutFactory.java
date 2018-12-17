@@ -33,7 +33,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
          */
         public LogoLayout init() {
             logger.debug("Initializing logo component");
-            logo = createImage("/kalaha-ui/src/main/resources/kalaha-logo-2.png");
+            logo = createImage("/kalaha-ui/src/main/resources/kalaha-logo.png");
             return this;
         }
 
@@ -62,7 +62,7 @@ public class KalahaLogoLayoutFactory implements UIComponentBuilder {
     }
 
     @Override
-    public Component createComponent() {
+    public LogoLayout createComponent() {
         return new LogoLayout().init().layout();
     }
 }

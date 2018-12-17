@@ -3,6 +3,7 @@ package com.ignatius.object.tests;
 import com.ignatius.data.objects.Board;
 import com.ignatius.data.objects.Kalaha;
 import com.ignatius.data.objects.Player;
+import com.ignatius.utils.BoardStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -58,14 +59,14 @@ public class BoardTest {
         setTestBoard();
         Kalaha l = testBoard.getKalaha(player1);
         testBoard.addToKalaha(player1, 20);
-        assertEquals(1, testBoard.winnigPlayer());
+        assertEquals(BoardStringUtils.PLAYER_1, testBoard.winnigPlayer());
     }
 
     @Test
     public void testPlayer2Won() {
         setTestBoard();
         testBoard.addToKalaha(player2, 20);
-        assertEquals(2, testBoard.winnigPlayer());
+        assertEquals(BoardStringUtils.PLAYER_2, testBoard.winnigPlayer());
     }
 
     @Test
@@ -73,7 +74,7 @@ public class BoardTest {
         setTestBoard();
         testBoard.addToKalaha(player2, 20);
         testBoard.addToKalaha(player1, 20);
-        assertEquals(0, testBoard.winnigPlayer());
+        assertEquals(BoardStringUtils.TIE, testBoard.winnigPlayer());
     }
 
     private void setTestBoard() {

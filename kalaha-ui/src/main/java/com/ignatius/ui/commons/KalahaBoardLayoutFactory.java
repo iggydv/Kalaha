@@ -5,6 +5,8 @@ import com.ignatius.data.objects.Pit;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -45,6 +47,9 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         private Button pit11;
         private Button reset;
         private Button[] pitButtons;
+
+        private Label player1Label;
+        private Label player2Label;
 
         private HorizontalLayout playerOneSide;
         private HorizontalLayout playerTwoSide;
@@ -96,6 +101,11 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             kalahaPlayer2.setWidth("30%");
             kalahaPlayer2.setEnabled(false);
 
+            player1Label = new Label(BoardStringUtils.PLAYER_1.getString());
+            player1Label.setWidth("10%");
+            player2Label = new Label(BoardStringUtils.PLAYER_2.getString());
+            player2Label.setWidth("10%");
+
             reset = new Button(BoardStringUtils.RESET.getString());
 
             for (Button pitButton : pitButtons) {
@@ -123,18 +133,24 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
                 playerTwoSide.setComponentAlignment(pitButtons[i], Alignment.TOP_CENTER);
             }
             // Add the components vertical layout
+            pitsLayout.addComponent(player1Label);
             pitsLayout.addComponent(playerOneSide);
             pitsLayout.addComponent(playerTwoSide);
+            pitsLayout.addComponent(player2Label);
             pitsLayout.addComponent(reset);
 
             // Set component alignment
+            pitsLayout.setComponentAlignment(player1Label, Alignment.MIDDLE_CENTER);
             pitsLayout.setComponentAlignment(playerOneSide, Alignment.MIDDLE_CENTER);
             pitsLayout.setComponentAlignment(playerTwoSide, Alignment.BOTTOM_CENTER);
+            pitsLayout.setComponentAlignment(player2Label, Alignment.MIDDLE_CENTER);
             pitsLayout.setComponentAlignment(reset, Alignment.BOTTOM_CENTER);
 
             // Set expand ratio
+            pitsLayout.setExpandRatio(player1Label, 2);
             pitsLayout.setExpandRatio(playerOneSide, 5);
             pitsLayout.setExpandRatio(playerTwoSide, 5);
+            pitsLayout.setExpandRatio(player2Label, 2);
             pitsLayout.setExpandRatio(reset, 2);
 
             // Add components to this object
@@ -167,11 +183,13 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             logger.debug("Adding clicker listeners to board component");
             for (Button pitButton : pitButtons) {
                 pitButton.addClickListener((ClickEvent event) -> {
-                    // TODO return value
                     boardService.play(Integer.parseInt(pitButton.getId()));
                     updateUI();
                     if (boardService.isGameOver()) {
-                        createWinnerPopUp(boardService.getBoard().winnigPlayer());
+                        Window winner = createWinnerPopUp(boardService.getBoard().winnigPlayer());
+                        UI ancestor = this.getUI();
+                        ancestor.addWindow(winner);
+                        createNotification(BoardStringUtils.PLEASE_CLICK_RESET.getString());
                     }
                 });
             }
@@ -179,6 +197,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             reset.addClickListener((ClickEvent event) -> {
                 boardService.reset();
                 updateUI();
+                createNotification(BoardStringUtils.RESET_BUTTON_CLICKED.getString());
             });
             return this;
         }
@@ -188,12 +207,11 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          *
          * @return a new view of the board, with updated values
          */
-        // TODO fix this ugly code
         public BoardLayout updateUI() {
             logger.info("Updating board component");
-            switch (boardService.getActivePlayerNumber()) {
-                case 1: disablePlayer2Pits(); break;
-                case 2: disablePlayer1Pits(); break;
+            switch (boardService.getActivePlayerEnum()) {
+                case PLAYER_1: disablePlayer2Pits(); break;
+                case PLAYER_2: disablePlayer1Pits(); break;
                 default: throw new IllegalArgumentException("Player unkown");
             }
             updatePitButtons();
@@ -205,7 +223,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         /**
          * Update the button captions to reflect it's @{@link Pit} counterpart
          */
-        public void updatePitButtons() {
+        private void updatePitButtons() {
             logger.debug("Updating pit button captions");
             for (Button pit : pitButtons) {
                 int index = Integer.parseInt(pit.getId());
@@ -251,7 +269,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
          *               PLAYER 2:  Player-2 is the winner
          *               TIE:       The game is tied
          */
-        public void createWinnerPopUp(BoardStringUtils winner) {
+        public Window createWinnerPopUp(BoardStringUtils winner) {
             logger.debug("Creating popup winner popup window");
             VerticalLayout subWindowContent = new VerticalLayout();
             String caption;
@@ -274,7 +292,6 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             subWindowContent.setComponentAlignment(winnerCaption, Alignment.BOTTOM_CENTER);
             subWindowContent.setComponentAlignment(winnerImage, Alignment.MIDDLE_CENTER);
 
-            UI ancestor = this.getUI();
             Window subWindow = new Window(BoardStringUtils.WINNER.getString());
             subWindow.setContent(subWindowContent);
             subWindow.setModal(true);
@@ -282,7 +299,18 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             subWindow.setHeight("500px");
             subWindow.setWidth("500px");
             subWindow.center();
-            ancestor.addWindow(subWindow);
+            return subWindow;
+        }
+
+        /**
+         * Creates a @{@link Notification} on the UI, indicating that the reset button needs to be clicked
+         * to reset the game.
+         */
+        private void createNotification(String message) {
+            Notification notification = new Notification("INFO", message);
+            notification.setDelayMsec(10000);
+            notification.setPosition(Position.TOP_CENTER);
+            notification.show(Page.getCurrent());
         }
 
         /**

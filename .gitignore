@@ -34,3 +34,5 @@ kalaha-web/target/
 \.attach_pid28892
 
 \.attach_pid28971
+
+*.MF

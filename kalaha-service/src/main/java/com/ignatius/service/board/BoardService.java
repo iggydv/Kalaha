@@ -261,15 +261,17 @@ public class BoardService {
     }
 
     /**
-     * @return
+     * @return @{@link BoardStringUtils} that represents the active player
      */
-    public int getActivePlayerNumber() {
+    public BoardStringUtils getActivePlayerEnum() {
         if (getActivePlayer().equals(player1)) {
-            return 1;
+            return BoardStringUtils.PLAYER_1;
         } else if (getActivePlayer().equals(player2)) {
-            return 2;
+            return BoardStringUtils.PLAYER_2;
+        } else {
+            logger.error("An unexpected error occurred");
+            throw new IllegalArgumentException("Unexpected error");
         }
-        return 0;
     }
 
     /**

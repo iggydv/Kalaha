@@ -64,9 +64,16 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
         public SettingsLayout setClickerListeners() {
             logger.debug("Adding clicker listeners to settings component");
             quit.addClickListener((Button.ClickEvent event) -> {
+                /* TODO: Fix current issue with application context not shutting down on graceful exit.
+                *  Current behaviour allows the application to exit if manually visits `http://localhost:8080/quit`
+                *  but through GET/POST Rest call it does not shut down at all and hangs
+                *
+                */
+                quit.getUI().close();
                 final String uri = "http://localhost:8080/quit";
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getForObject(uri, String.class);
+
             });
 
             return this;
@@ -89,14 +96,13 @@ public class KalahaSettingsLayoutFactory implements UIComponentBuilder {
             helpText.setValue(result);
             helpText.setHeight("500px");
             helpText.setWidth("500px");
-            PopupView popup = new PopupView("Rules", helpText);
 
-            return popup;
+            return new PopupView("Rules", helpText);
         }
     }
 
     @Override
-    public Component createComponent() {
+    public SettingsLayout createComponent() {
         return new SettingsLayout().init().layout().setClickerListeners();
     }
 }

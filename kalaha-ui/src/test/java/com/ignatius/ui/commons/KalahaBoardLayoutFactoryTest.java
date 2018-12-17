@@ -1,9 +1,9 @@
 package com.ignatius.ui.commons;
 
 import com.ignatius.data.objects.Board;
+import com.ignatius.data.objects.Player;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
-import com.vaadin.ui.Component;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,6 +17,9 @@ public class KalahaBoardLayoutFactoryTest {
     @Mock
     Board board;
 
+    @Mock
+    Player player1, player2;
+
     @InjectMocks
     BoardService boardService;
 
@@ -26,7 +29,7 @@ public class KalahaBoardLayoutFactoryTest {
 
     @Test
     public void testBoardUIInitialization() {
-        Component board = createBoardLayout();
+        createBoardLayout();
     }
 
     @Test
@@ -48,14 +51,15 @@ public class KalahaBoardLayoutFactoryTest {
     }
 
     @Test
-    public void woah() {
+    public void testCreateWinnerPopUp() {
         KalahaBoardLayoutFactory.BoardLayout board = createBoardLayout();
         board.init().layout().setClickerListeners();
-
         board.createWinnerPopUp(BoardStringUtils.PLAYER_1);
     }
 
     private KalahaBoardLayoutFactory.BoardLayout createBoardLayout() {
+        boardService.assignPlayerOne("player1");
+        boardService.assignPlayerTwo("player2");
         KalahaBoardLayoutFactory.BoardLayout board = kalahaBoardLayoutFactory.createComponent(boardService);
         return board;
     }

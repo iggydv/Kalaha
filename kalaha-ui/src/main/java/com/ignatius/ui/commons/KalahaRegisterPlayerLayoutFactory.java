@@ -127,11 +127,11 @@ public class KalahaRegisterPlayerLayoutFactory implements UIComponentBuilder {
     }
 
     @Override
-    public Component createComponent() {
+    public RegisterPlayerLayout createComponent() {
         return new RegisterPlayerLayout().init().layout().setClickerListeners();
     }
 
-    public Component createComponent(BoardService boardService) {
+    public RegisterPlayerLayout createComponent(BoardService boardService) {
         this.boardService = boardService;
         return createComponent();
     }
