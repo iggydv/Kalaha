@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerTest {
 

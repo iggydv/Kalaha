@@ -41,7 +41,9 @@ public class BoardService {
     }
 
     /**
-     * @param playerName
+     * Instantiate the player to either player-1 or player-2
+     *
+     * @param playerName the player's name
      */
     public void assignPlayerName(String playerName) {
         if (player1 == null) {

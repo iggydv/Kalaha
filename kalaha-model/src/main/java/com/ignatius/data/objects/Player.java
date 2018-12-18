@@ -1,8 +1,5 @@
 package com.ignatius.data.objects;
 
-
-import javax.inject.Inject;
-
 /**
  * @author Ignatius de Villiers
  * @since 12 December 2018

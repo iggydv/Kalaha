@@ -54,6 +54,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
         private HorizontalLayout playerOneSide;
         private HorizontalLayout playerTwoSide;
         private VerticalLayout pitsLayout;
+        Image winnerImage = createImage("/kalaha-ui/src/main/resources/winner.png");
 
         public BoardLayout() {
             pit0 = new Button("0");
@@ -284,7 +285,6 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             }
             Label winnerCaption = new Label(caption);
             winnerCaption.setWidth("100px");
-            Image winnerImage = createImage("/kalaha-ui/src/main/resources/winner.png");
 
             subWindowContent.addComponent(winnerCaption);
             subWindowContent.addComponent(winnerImage);

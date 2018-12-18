@@ -4,7 +4,7 @@ public class Pit {
     private int stones;
 
     /**
-     * A @{@link Side} Object consists of multiple Pit objects, which are editable by the @{@link Player} associated
+     * A @{@link Board} Object consists of multiple Pit objects, which are editable by the @{@link Player} associated
      * with that side
      *
      * @param stones The initial amount of stones in the pit

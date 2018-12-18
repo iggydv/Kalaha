@@ -7,6 +7,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This REST service provides a single REST endpoint, that reads from the help.txt file, to be used as guidance for the
@@ -15,7 +16,7 @@ import java.io.*;
  * @author Ignatius de Villiers
  * @since 16 December 2018
  *
- * @note (From author) This class is definitely not required to read text from a file, it just provides a simple use case
+ * @note (from @author) This class is definitely not required to read text from a file, it just provides a simple use case
  * of the Spring @{@link RestController}
  *
  */
@@ -27,6 +28,9 @@ public class BoardRestService {
     @Autowired
     private ResourceLoader loader;
 
+    /**
+     * @return String copy of the content found in help.txt
+     */
     @RequestMapping(value = "/help", produces = "text/html", method = RequestMethod.GET)
     public String help() {
         logger.info("Reading from help.txt");
@@ -42,6 +46,11 @@ public class BoardRestService {
         return output;
     }
 
+    /**
+     * @param inputStream to be converted to string
+     * @return String representation of the @{@link InputStream}
+     * @throws IOException
+     */
     private String convertStreamToString(InputStream inputStream) throws IOException {
         logger.debug("Converting Inputstream to String");
         if (inputStream != null) {
@@ -50,7 +59,7 @@ public class BoardRestService {
             char[] buffer = new char[1024];
             try {
                 Reader reader = new BufferedReader(
-                        new InputStreamReader(inputStream, "UTF-8"));
+                        new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 int n;
                 while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);
