@@ -112,7 +112,7 @@ public class Board {
 
         totalStonesOnSide = 0;
 
-        Pit[] player2Pits = Arrays.copyOfRange(pits, 6, pits.length - 1);
+        Pit[] player2Pits = Arrays.copyOfRange(pits, 6, pits.length);
         for (Pit pit : player2Pits) {
             totalStonesOnSide += pit.getStones();
         }

@@ -46,11 +46,21 @@ public class BoardTest {
     }
 
     @Test
-    public void testEndGameConditionPositiveCase() {
+    public void testEndGameConditionPositiveCasePlayer1() {
         setTestBoard();
         for (int i = 0; i < (testBoard.getPits().length)/2; i++) {
             testBoard.getPit(i).setStones(0);
         }
+        assertTrue(testBoard.endGameCondition());
+    }
+
+    @Test
+    public void testEndGameConditionPositiveCasePlayer2() {
+        setTestBoard();
+        for (int i = 6; i < (testBoard.getPits().length); i++) {
+            testBoard.getPit(i).setStones(0);
+        }
+
         assertTrue(testBoard.endGameCondition());
     }
 
