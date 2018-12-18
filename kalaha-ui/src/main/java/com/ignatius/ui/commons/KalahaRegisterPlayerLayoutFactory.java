@@ -3,8 +3,13 @@ package com.ignatius.ui.commons;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * Pattern used: Builder pattern
  *
  * @author Ignatius de Villiers
- * @since 14 Dec 2018
+ * @since 14 December 2018
  */
 @org.springframework.stereotype.Component
 public class KalahaRegisterPlayerLayoutFactory implements UIComponentBuilder {
@@ -25,11 +30,11 @@ public class KalahaRegisterPlayerLayoutFactory implements UIComponentBuilder {
 
     private class RegisterPlayerLayout extends VerticalLayout {
         // ui objects
-        TextField player1TextField;
-        TextField player2TextField;
-        Button lockPlayer1;
-        Button lockPlayer2;
-        Button start;
+        private TextField player1TextField;
+        private TextField player2TextField;
+        private Button lockPlayer1;
+        private Button lockPlayer2;
+        private Button start;
 
         /**
          * Initializes each component on the RegisterPlayerLayout

@@ -16,7 +16,7 @@ import java.io.File;
  * Pattern used: Builder pattern
  *
  * @author Ignatius de Villiers
- * @since 14 Dec 2018
+ * @since 14 December 2018
  */
 @org.springframework.stereotype.Component
 public class KalahaLogoLayoutFactory implements UIComponentBuilder {

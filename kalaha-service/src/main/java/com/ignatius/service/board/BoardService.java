@@ -206,6 +206,10 @@ public class BoardService {
         return board.endGameCondition();
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
     /**
      * @return true:    @endGameCondition has been met
      *         false:   otherwise
@@ -283,7 +287,6 @@ public class BoardService {
         return board;
     }
 
-    // TODO make enum
     public int getKalahaStones(Player player) {
         return player.getKalaha().getStones();
     }

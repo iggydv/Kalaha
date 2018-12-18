@@ -27,7 +27,7 @@ After the code has been packaged, execute the maven install command, to install 
 mvn clean package
 mvn install
 ```
-At the following output should be displayed
+And the following output should be displayed
 ```
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
@@ -53,25 +53,51 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+During the maven `clean` `install` and `package` lifecycles unit tests are executed, but if you would like to execute them seperately you can execute the following command.
 
 ```
-Give an example
+mvn test
+```
+All unit test results can be found on the console output <br/>
+The following output should be displayed
+```
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.ignatius.object.tests.PlayerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.355 s - in com.ignatius.object.tests.PlayerTest
+[INFO] Running com.ignatius.object.tests.PitTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.ignatius.object.tests.PitTest
+[INFO] Running com.ignatius.object.tests.BoardTest
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in com.ignatius.object.tests.BoardTest
+.
+. <OTHER UNIT TEST RESULTS>
+.
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] kalaha ............................................. SUCCESS [  0.002 s]
+[INFO] kalaha-utils ....................................... SUCCESS [  0.447 s]
+[INFO] kalaha-model ....................................... SUCCESS [  1.237 s]
+[INFO] kalaha-service ..................................... SUCCESS [  0.545 s]
+[INFO] kalaha-ui .......................................... SUCCESS [  1.121 s]
+[INFO] kalaha-web ......................................... SUCCESS [  0.240 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3.871 s
+[INFO] Finished at: 2018-12-18T11:36:08+02:00
+[INFO] Final Memory: 20M/397M
+[INFO] ------------------------------------------------------------------------
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Execution
+
+### JAR
 
 Navigate to the location of the `kalaha-web-1.3.6.RELEASE.jar` file
 
@@ -103,6 +129,54 @@ java -jar kalaha-web-1.3.6.RELEASE.jar
 ```
 In your web browser of choice, navigate to `http://localhost:8080/kalaha` and ENJOY!
 
+To stop the execution you can use `CTRL+C` in your terminal window or navigate to `http://localhost:8080/quit`
+
+### DOCKER
+
+If you want  to build the docker image locally, you can do so by following these steps:
+* Navigate to the root `Kalaha` directory
+  ```
+  cd Kalaha/
+  ```
+* Build the `JAR` files by executing the steps mentioned above 
+  ```
+  mvn clean package
+  mvn install
+  ```
+* Execute the `docker` build
+  ```
+  docker build -t 'kalaha' .
+  ```
+* Creating the docker container is just as easy
+  ```
+  docker run -d --restart=always -p 8080:8080 kalaha
+  ```
+In your web browser of choice, navigate to http://localhost:8080/kalaha and ENJOY!
+
+To stop and destroy the container you can execute the following commands
+* List active containers
+  ```
+  docker ps
+  ```
+* Stop the `Kalaha` container 
+  ```
+  docker stop <CONTAINER ID>
+  ```
+* Remove the `Kalaha` container
+  ```
+  docker rm <CONTAINtER ID>
+  ```
+
+#### Pull from Dockerhub
+
+If you do not wish to build the image locally you can pull and run the image from dockerhub
+```
+docker run -d --restart=always -p 8080:8080 iggydv/kalaha
+```
+
+## Screenshots
+
+Please see [SCREENSHOTS.md](https://github.com/iggydv/Kalaha/blob/v2/SCREENSHOTS.md) for Web Application screenshots.
 
 ## Built With
 
@@ -111,9 +185,22 @@ In your web browser of choice, navigate to `http://localhost:8080/kalaha` and EN
 * [Vaadin](https://vaadin.com/) - Used to generate UI components
 
 
-## Versioning
+## Known issues and Improvements
 
-For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+### Issues
+
+* The docker image currently cannot close the application context via the `http://localhost:8080/quit` endpoint
+* Consuming the `http://localhost:8080/quit` in the UI causes the project to hang and does not close the web application correctly
+
+## Improvements
+* Support multiple sessions on one kalaha board
+  * This would mean exposing the `Kalaha` web application to the internet
+  * Allow `2` players to play against one another
+  * Any other user to access the endpoint will be a spectator
+* We could increase the competitiveness of the game by:
+  * Adding a timer to each players turn
+  * Creating AI to play against a user
+* General UI improvements
 
 ## Author
 

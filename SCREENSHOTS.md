@@ -16,3 +16,10 @@
 
 </p>
 
+## Author
+
+* **Ignatius de Villiers**
+
+## Contact
+* iggydv12@gmail.com
+

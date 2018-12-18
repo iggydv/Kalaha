@@ -11,6 +11,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * This just proof that the inner class of the @{@link KalahaBoardLayoutFactory}, @{@link KalahaLogoLayoutFactory},
+ * @{@link KalahaRegisterPlayerLayoutFactory} and @{@link KalahaSettingsLayoutFactory} classes can be unit tested.
+ *
+ * For the purpose of this assignment I have decided to not to Unit test all of the inner classes,
+ * as manual testing of UI components and logic as either been manually tested or covered in test cases,
+ * found in @{@link BoardService} unit tests
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class KalahaBoardLayoutFactoryTest {
 

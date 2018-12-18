@@ -1,5 +1,11 @@
 package com.ignatius.utils;
 
+/**
+ * String Enums for UI components, to be altered if language requirements change
+ *
+ * @author Ignatius de Villiers
+ * @since 12 December 2018
+ */
 public enum BoardStringUtils {
 
     QUIT("Quit"),

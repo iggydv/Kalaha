@@ -1,15 +1,23 @@
 package com.ignatius.ui.commons;
 
-// builder pattern
 import com.ignatius.data.objects.Pit;
 import com.ignatius.service.board.BoardService;
 import com.ignatius.utils.BoardStringUtils;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +29,7 @@ import java.io.File;
  * Pattern used: Builder pattern
  *
  * @author Ignatius de Villiers
- * @since 14 Dec 2018
+ * @since 14 December 2018
  */
 @org.springframework.stereotype.Component
 public class KalahaBoardLayoutFactory implements UIComponentBuilder {
@@ -197,6 +205,7 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
 
             reset.addClickListener((ClickEvent event) -> {
                 boardService.reset();
+                boardService.setGameOver(false);
                 updateUI();
                 createNotification(BoardStringUtils.RESET_BUTTON_CLICKED.getString());
             });

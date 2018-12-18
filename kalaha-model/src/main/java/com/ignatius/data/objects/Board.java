@@ -3,13 +3,15 @@ package com.ignatius.data.objects;
 import com.ignatius.utils.BoardStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.inject.Inject;
 import java.util.Arrays;
 
 /**
  * Class that provides a collection of all the kalaha game objects
  * See documentation for more information
+ *
+ * @author Ignatius de Villiers
+ * @since 12 December 2018
  */
 public class Board {
 
@@ -123,9 +125,9 @@ public class Board {
     }
 
     /**
-     * TODO: add enum for Winner
+     * Compares the players Kalahas to determine the winner
      *
-     * @return the enum associated with the winning player
+     * @return the @{@link BoardStringUtils} enum associated with the winning player
      */
     public BoardStringUtils winnigPlayer() {
         if (player1.getKalaha().getStones() > player2.getKalaha().getStones()) {

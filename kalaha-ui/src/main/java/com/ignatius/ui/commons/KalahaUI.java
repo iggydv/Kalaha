@@ -16,6 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Main UI component for the Kalaha web application
+ *
+ * @author Ignatius de Villiers
+ * @since 14 December 2018
+ */
 @SpringUI(path = KalahaUI.NAME)
 @SuppressWarnings("serial")
 @Title("K a l a h a")

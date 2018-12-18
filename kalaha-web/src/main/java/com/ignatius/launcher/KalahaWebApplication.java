@@ -10,9 +10,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-
 import javax.annotation.PreDestroy;
 
+
+/**
+ * @author Ignatius de Villiers
+ * @since 14 December 2018
+ */
 @Configuration
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @ComponentScan({"com.ignatius"})

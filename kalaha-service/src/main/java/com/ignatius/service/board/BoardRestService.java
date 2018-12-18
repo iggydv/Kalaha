@@ -10,7 +10,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * This REST service provides a single REST endpoint, that reads from the help.txt file, to be used as guidance for the
+ * This REST API consists of a single REST endpoint, that reads from the help.txt file, to be used as guidance for the
  * players.
  *
  * @author Ignatius de Villiers

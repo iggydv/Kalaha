@@ -1,5 +1,10 @@
 package com.ignatius.data.objects;
 
+/**
+ * @author Ignatius de Villiers
+ * @since 12 December 2018
+ */
+
 public class Pit {
     private int stones;
 

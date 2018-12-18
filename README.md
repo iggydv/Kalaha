@@ -15,3 +15,11 @@ The game is over as soon as one of the sides run out of stones. The player who s
 # Getting Started
 
 Please see [GETTING-STARTED.md](https://github.com/iggydv/Kalaha/GETTING-STARTED.md)
+
+
+## Author
+
+* **Ignatius de Villiers**
+
+## Contact
+* iggydv12@gmail.com

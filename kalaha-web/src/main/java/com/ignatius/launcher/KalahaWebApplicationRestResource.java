@@ -1,17 +1,18 @@
 package com.ignatius.launcher;
 
-import org.apache.catalina.Executor;
-import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
+/**
+ * Rest API for Web Application related tasks that
+ *
+ * @author Ignatius de Villiers
+ * @since 14 Dec 2018
+ */
 @RestController
 public class KalahaWebApplicationRestResource implements ApplicationContextAware {
 
@@ -22,7 +23,11 @@ public class KalahaWebApplicationRestResource implements ApplicationContextAware
         this.context = applicationContext;
     }
 
-    // TODO Upgrade spring - this does not currently work
+    /**
+     * Closes the Application and enables the application to shut down gracefully
+     *
+     * TODO this does not currently work when called from UI
+     */
     @RequestMapping(value = "/quit")
     public void quit() {
         ((ConfigurableApplicationContext) context).close();
