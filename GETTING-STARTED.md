@@ -1,6 +1,6 @@
 # Kalaha
 
-Please see [README.md](https://github.com/iggydv/Kalaha/README.md) for game rules.
+Please see [README.md](https://github.com/iggydv/Kalaha/blob/master/README.md) for game rules.
 
 ## Getting Started
 
@@ -47,9 +47,6 @@ And the following output should be displayed
 [INFO] ------------------------------------------------------------------------
 ```
 The `Kalaha` project is now ready to be deployed
-
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
@@ -121,7 +118,7 @@ java -jar kalaha-web-1.3.6.RELEASE.jar
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v1.3.6.RELEASE)
 
-2018-12-17 17:31:43.907  INFO 18800 --- [           main] c.i.launcher.KalahaWebApplication        : Starting KalahaWebApplication v1.3.6.RELEASE on ignatius-Dell with PID 18800 (/home/ignatius/Projects/personal projects/Kalaha/kalaha-web/target/kalaha-web-1.3.6.RELEASE.jar started by ignatius in /home/ignatius/Projects/personal projects/Kalaha/kalaha-web/target)
+2018-12-17 17:31:43.907  INFO 18800 --- [main] c.i.launcher.KalahaWebApplication: Starting KalahaWebApplication v1.3.6.RELEASE on ignatius-Dell with PID 18800 
 .
 .
 .
@@ -132,8 +129,7 @@ In your web browser of choice, navigate to `http://localhost:8080/kalaha` and EN
 To stop the execution you can use `CTRL+C` in your terminal window or navigate to `http://localhost:8080/quit`
 
 ### DOCKER
-
-If you want  to build the docker image locally, you can do so by following these steps:
+#### Build the image locally
 * Navigate to the root `Kalaha` directory
   ```
   cd Kalaha/
@@ -171,12 +167,12 @@ To stop and destroy the container you can execute the following commands
 
 If you do not wish to build the image locally you can pull and run the image from dockerhub
 ```
-docker run -d --restart=always -p 8080:8080 iggydv/kalaha
+docker run -d --restart=always -p 8080:8080 iggydv/kalaha:latest
 ```
 
 ## Screenshots
 
-Please see [SCREENSHOTS.md](https://github.com/iggydv/Kalaha/blob/v2/SCREENSHOTS.md) for Web Application screenshots.
+Please see [SCREENSHOTS.md](https://github.com/iggydv/Kalaha/blob/master/SCREENSHOTS.md) for Web Application screenshots.
 
 ## Built With
 
@@ -204,10 +200,10 @@ Please see [SCREENSHOTS.md](https://github.com/iggydv/Kalaha/blob/v2/SCREENSHOTS
 
 ## Author
 
-* **Ignatius de Villiers**
+**Ignatius de Villiers**
 
 ## Contact
-* iggydv12@gmail.com
+iggydv12@gmail.com
 
 ## License
 

@@ -21,8 +21,6 @@ kalaha-web/target/
 
 \.attach_pid11402
 
-*.properties
-
 *.iml
 
 *.war
