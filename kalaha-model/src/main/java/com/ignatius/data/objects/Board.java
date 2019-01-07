@@ -62,7 +62,8 @@ public class Board {
     }
 
     /**
-     * @param pitIndex The index of the @{@link Pit} that should be emptied
+     * @param pitIndex The index of the @{@link Pit} requested pit
+     * @return amount of stones in the requested pit
      */
     public int getStonesInPit(int pitIndex) {
         return pits[pitIndex].getStones();

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Rest API for Web Application related tasks that
+ * Rest API for Web Application related tasks
  *
  * @author Ignatius de Villiers
  * @since 14 Dec 2018

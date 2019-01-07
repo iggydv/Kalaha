@@ -287,6 +287,9 @@ public class BoardService {
         return board;
     }
 
+    /**
+     * @return the amount of stones in the Player's @{@link Kalaha}
+     */
     public int getKalahaStones(Player player) {
         return player.getKalaha().getStones();
     }

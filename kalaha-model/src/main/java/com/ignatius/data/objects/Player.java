@@ -1,6 +1,9 @@
 package com.ignatius.data.objects;
 
 /**
+ * Each user is assigned a player name at the start of the game,
+ * which is used to keep track of the amount of stones a certain player has in their @{@link Kalaha}
+ *
  * @author Ignatius de Villiers
  * @since 12 December 2018
  */
@@ -10,14 +13,14 @@ public class Player {
     private Kalaha kalaha;
 
     /**
-     * @param playerName
+     * @param playerName the name associated with a certain player
      */
     public Player(String playerName) {
         this.playerName = playerName;
     }
 
     /**
-     * @param kalaha receiveStones a reference of the kalaha the player will be associated with
+     * @param kalaha a reference of the kalaha the player will be associated with
      */
     public void setKalaha(Kalaha kalaha) {
         this.kalaha = kalaha;

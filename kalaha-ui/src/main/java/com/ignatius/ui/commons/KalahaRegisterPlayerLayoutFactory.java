@@ -96,7 +96,7 @@ public class KalahaRegisterPlayerLayoutFactory implements UIComponentBuilder {
         /**
          * Adds {@link Button.ClickListener}s to @{@link Button}s to provide functionality to this component
          *
-         * @return a BoardLayout with functional buttons
+         * @return a RegisterPlayerLayout with functional buttons
          */
         public RegisterPlayerLayout setClickerListeners() {
             logger.debug("Adding clicker listeners to Player component");

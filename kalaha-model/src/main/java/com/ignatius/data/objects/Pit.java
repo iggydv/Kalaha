@@ -28,7 +28,7 @@ public class Pit {
     }
 
     /**
-     * Allows a pit to receiveStones a certain amount of stones
+     * Allows a pit to receive a certain amount of stones
      * @param amountStones The amount of stones to be added to the specific pit
      */
     public void receiveStones(int amountStones) {

@@ -271,7 +271,6 @@ public class KalahaBoardLayoutFactory implements UIComponentBuilder {
             }
         }
 
-
         /**
          * Creates a popup window that displays the winning @{@link com.ignatius.data.objects.Player}'s name
          * @param winner is the @{@link BoardStringUtils} enum received from the @{@link BoardService}
