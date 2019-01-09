@@ -2,15 +2,14 @@ package com.ignatius.object.tests;
 
 import com.ignatius.data.objects.Board;
 import com.ignatius.data.objects.Kalaha;
+import com.ignatius.data.objects.Pit;
 import com.ignatius.data.objects.Player;
 import com.ignatius.utils.BoardStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -20,24 +19,16 @@ public class BoardTest {
     @Mock
     Kalaha kalahaPlayer1;
 
-    @InjectMocks
+    @Mock
     Player player1;
 
     @Mock
     Kalaha kalahaPlayer2;
 
-    @InjectMocks
+    @Mock
     Player player2;
 
     private Board testBoard;
-
-    @Test
-    public void testPitInitialization() {
-        setTestBoard();
-        Random random = new Random();
-        assertEquals(6, testBoard.getStonesInPit(random.nextInt(11)));
-        assertEquals(0, testBoard.getKalaha(player1).getStones());
-    }
 
     @Test
     public void testEndGameConditionNegativeCase() {
@@ -67,30 +58,37 @@ public class BoardTest {
     @Test
     public void testPlayer1Won() {
         setTestBoard();
-        Kalaha l = testBoard.getKalaha(player1);
-        testBoard.addToKalaha(player1, 20);
+        Mockito.when(testBoard.getKalaha(player1)).thenReturn(kalahaPlayer1);
+        Mockito.when(testBoard.getKalaha(player2)).thenReturn(kalahaPlayer2);
+        Mockito.when(kalahaPlayer1.getStones()).thenReturn(20);
         assertEquals(BoardStringUtils.PLAYER_1, testBoard.winnigPlayer());
     }
 
     @Test
     public void testPlayer2Won() {
         setTestBoard();
-        testBoard.addToKalaha(player2, 20);
+        Mockito.when(testBoard.getKalaha(player1)).thenReturn(kalahaPlayer1);
+        Mockito.when(testBoard.getKalaha(player2)).thenReturn(kalahaPlayer2);
+        Mockito.when(kalahaPlayer2.getStones()).thenReturn(20);
         assertEquals(BoardStringUtils.PLAYER_2, testBoard.winnigPlayer());
     }
 
     @Test
     public void testDraw() {
         setTestBoard();
+        Mockito.when(testBoard.getKalaha(player1)).thenReturn(kalahaPlayer1);
+        Mockito.when(testBoard.getKalaha(player2)).thenReturn(kalahaPlayer2);
         testBoard.addToKalaha(player2, 20);
         testBoard.addToKalaha(player1, 20);
         assertEquals(BoardStringUtils.TIE, testBoard.winnigPlayer());
     }
 
     private void setTestBoard() {
-        testBoard = new Board(12, 72);
-        testBoard.setPlayer1(player1);
-        testBoard.setPlayer2(player2);
+        Pit[] pits = new Pit[12];
+        for (int i = 0; i < 12; i++) {
+            pits[i] = new Pit(72 / 12);
+        }
+        testBoard = new Board(12, 72, player1, player2, kalahaPlayer1, kalahaPlayer2, pits);
     }
 
 }

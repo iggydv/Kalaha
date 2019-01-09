@@ -8,8 +8,6 @@ import com.ignatius.utils.BoardStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-
 /**
  * Acts as a link between the Kalaha @{@link Board} objects and the Kalaha Web Application's UI
  *
@@ -20,21 +18,32 @@ public class BoardService {
 
     private static Logger logger = LoggerFactory.getLogger(BoardService.class);
     private boolean gameOver = false;
-
-    @Inject
     private Board board;
-    @Inject
-    private Player player1, player2, activePlayer;
+    private Player player1 = new Player("");
+    private Player player2 = new Player("");
+    private Player activePlayer = new Player("");
+    private Kalaha kalahaPlayer1 = new Kalaha();
+    private Kalaha kalahaPlayer2 = new Kalaha();
+    private Pit[] pits = new Pit[12];
 
     public BoardService() {
-        board = new Board(12, 72);
+        initializeBoard();
+        board = new Board(12, 72, player1, player2, kalahaPlayer1, kalahaPlayer2, pits);
     }
 
+    private void initializeBoard() {
+        for (int i = 0; i < 12; i++) {
+            pits[i] = new Pit(72 / 12);
+        }
+    }
     /**
      * Resets the game by creating a new @{@link Board} Object
      */
     public void reset() {
-        board = new Board(12, 72);
+        initializeBoard();
+        kalahaPlayer1.emptyPit();
+        kalahaPlayer2.emptyPit();
+        board = new Board(12, 72, player1, player2, kalahaPlayer1, kalahaPlayer2, pits);
         board.setPlayer1(player1);
         board.setPlayer2(player2);
         setActivePlayer(player1);
