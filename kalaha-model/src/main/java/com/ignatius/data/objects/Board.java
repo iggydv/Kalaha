@@ -3,6 +3,7 @@ package com.ignatius.data.objects;
 import com.ignatius.utils.BoardStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 import java.util.Arrays;
 
@@ -17,13 +18,9 @@ public class Board {
 
     private static Logger logger = LoggerFactory.getLogger(Board.class);
 
-    @Inject
     private Pit[] pits;
-    @Inject
-    Kalaha kalahaPlayer1, kalahaPlayer2;
-    @Inject
+    private Kalaha kalahaPlayer1, kalahaPlayer2;
     private Player player1, player2;
-
     private int amountPits;
     private int amountStones;
 
@@ -35,23 +32,15 @@ public class Board {
      * @param amountPits   The amount of pits that should be created on each side of the board
      * @param amountStones The total amount of stones that should be divided amongst all pits on this Side
      */
-    public Board(int amountPits, int amountStones) {
+    @Inject
+    public Board(int amountPits, int amountStones, Player p1, Player p2, Kalaha k1, Kalaha k2, Pit[] pits) {
         this.amountPits = amountPits;
         this.amountStones = amountStones;
-        pits = new Pit[amountPits];
-        initializeBoard();
-    }
-
-    /**
-     * Initialize all the pits & kalahas to have their initial stones
-     */
-    private void initializeBoard() {
-        kalahaPlayer1 = new Kalaha();
-        kalahaPlayer2 = new Kalaha();
-
-        for (int i = 0; i < amountPits; i++) {
-            pits[i] = new Pit(amountStones / amountPits);
-        }
+        this.player1 = p1;
+        this.player2 = p2;
+        this.kalahaPlayer1 = k1;
+        this.kalahaPlayer2 = k2;
+        this.pits = pits;
     }
 
     /**
